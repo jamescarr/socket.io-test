@@ -1,5 +1,6 @@
 require 'should'
 io = require('socket.io-client')
+server = require('../chat-server')
 
 socketURL = 'http://0.0.0.0:5000'
 
@@ -12,6 +13,11 @@ chatUser2 = name:'Sally'
 chatUser3 = name:'Dana'
 
 describe "Chat Server", ->
+  before (done) ->
+    server.start 5000, done
+  after (done) ->
+    server.stop done
+
   it "Should broadcast new user to all users", (done) ->
     client1 = io.connect(socketURL, options)
     client1.on "connect", (data) ->
