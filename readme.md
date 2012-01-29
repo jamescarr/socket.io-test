@@ -5,7 +5,14 @@ Client](http://liamkaufman.com/blog/2012/01/28/testing-socketio-with-mocha-shoul
 and redoing the examples in coffeescript.
 
 ## Getting It
-Git clone instructions
+
+```bash
+$ git clone git@github.com:jamescarr/socket.io-test.git
+
+$ cd socket.io-test
+
+$ npm install
+```
 
 ## Running It
 
