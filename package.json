@@ -17,6 +17,7 @@
   },
   "optionalDependencies": {},
   "scripts":{
-    "preinstall": "npm install https://github.com/LearnBoost/socket.io-client/tarball/master"
+      "preinstall": "npm install https://github.com/LearnBoost/socket.io-client/tarball/master"
+    , "test":"./node_modules/mocha/bin/mocha -R spec"
   }
 }

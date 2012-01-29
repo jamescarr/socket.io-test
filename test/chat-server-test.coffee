@@ -60,6 +60,50 @@ describe "Chat Server", ->
         client3.on 'connect', (data) ->
           client2.send(message)
 
-          
+  it "should be able to send private messages", (done)->
+    client1 = null
+    client2 = null
+    client3 = null
+    message = 
+      to:chatUser1.name
+      txt:'Private Hello World'
+    messages = 0
+
+    completeTest = ->
+      messages.should.equal 1
+      client1.disconnect()
+      client2.disconnect()
+      client3.disconnect()
+      done()
+
+    checkPrivateMessage = (client) ->
+      client.on 'private message', (msg) ->
+        message.txt.should.equal msg.txt
+        msg.from.should.equal chatUser3.name
+        messages++
+        if client is client1
+          ###
+          # The first client has recieved the message
+          # so we give some time to ensure the others
+          # don't eventually get it.
+          ###
+          setTimeout completeTest, 40
+    
+    client1 = io.connect socketURL, options
+    checkPrivateMessage client1
+    client1.on 'connect', (data) ->
+      client1.emit 'connection name', chatUser1
+      client2 = io.connect socketURL, options
+      checkPrivateMessage client2
+      client2.on 'connect', (data) ->
+        client2.emit 'connection name', chatUser2
+        client3 = io.connect socketURL, options
+        checkPrivateMessage client3
+        client3.on 'connect', (data) ->
+          client3.emit 'connection name', chatUser3
+          client3.emit 'private message', message
+
+
+
 
 
