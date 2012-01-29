@@ -32,4 +32,28 @@ describe "Chat Server", ->
         client1.disconnect()
         done()
 
+  it "should be able to broadcast messages", (done) ->
+    message = 'Hello World'
+    messages = 0
+  
+    checkMessage = (client) ->
+      client.on 'message', (msg) ->
+        msg.should.eql message
+        client.disconnect()
+        messages++
+        done() if messages is 3
+
+    client1 = io.connect(socketURL, options)
+    checkMessage client1
+    client1.on 'connect', (data) ->
+      client2 = io.connect(socketURL, options)
+      checkMessage client2
+      client2.on 'connect', (data) ->
+        client3 = io.connect socketURL, options
+        checkMessage client3
+        client3.on 'connect', (data) ->
+          client2.send(message)
+
+          
+
 
