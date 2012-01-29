@@ -9,6 +9,7 @@ Git clone instructions
 
 ## Running It
 
+### first-test and second-test tags
 First start the server up
 
 ```bash
@@ -16,6 +17,14 @@ coffee chat-server.coffee
 ```
 
 Then run the tests
+
+```bash
+mocha -R spec
+
+```
+
+### refactor-no-more-manual-work and beyond
+
 ```bash
 mocha -R spec
 
